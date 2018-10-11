@@ -4,12 +4,14 @@
 /**************************
 *        base type        *
 **************************/
-template<bool x>
-struct Bool_{
-    static constexpr auto real = x;
-};
 template<long long x>
 struct Int_{
+    using toInt = Int_<x>;
+    static constexpr auto real = x;
+};
+template<bool x>
+struct Bool_{
+    using toInt = Int_<(long long)x>;
     static constexpr auto real = x;
 };
 
