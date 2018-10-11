@@ -9,16 +9,16 @@
 **************************/
 // for convenience, assume all elem less than 10, concat them literally
 struct Empty{
-    using value = Int_<0>;
+    using toInt = Int_<0>;
 };
 // [1,2,3] `App` 4 = [1,2,3,4]
 template<class L, class V>
 struct App{
-    using value = typename add<typename multiply<Int_<10>, typename L::value>::value, V>::value;
+    using toInt = typename add<typename multiply<Int_<10>, typename L::toInt>::value, V>::value;
 };
 template<class V>
 struct App<Empty,V>{
-    using value = V;
+    using toInt = V;
 };
 
 // [1,2,3] `concat` [4,5,6] = [1,2,3,4,5,6]

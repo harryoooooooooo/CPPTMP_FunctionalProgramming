@@ -77,36 +77,36 @@ struct sort<App<LS,PIVOT>>{
 
 int main (){
     { // Functor Maybe
-        using A = Nothing;                  assert( -1 == A::value::real );
-        using B = Just<Int_<3>>;            assert( 3  == B::value::real );
+        using A = Nothing;                  assert( -1 == A::toInt::real );
+        using B = Just<Int_<3>>;            assert( 3  == B::toInt::real );
         std::cout << "Functor Maybe OK." << std::endl;
     }
     { // Monad Maybe
-        using A = Just<Int_<12>>;           assert( 12 == A::value::real );
-        using B = bind<A,safeSub5M>::value; assert( 7  == B::value::real );
-        using C = bind<B,add3M>::value;     assert( 10 == C::value::real );
-        using D = bind<C,safeSub5M>::value; assert( 5  == D::value::real );
-        using E = bind<D,add3M>::value;     assert( 8  == E::value::real );
-        using F = bind<E,safeSub5M>::value; assert( 3  == F::value::real );
-        using G = bind<F,safeSub5M>::value; assert( -1 == G::value::real );
-        using H = bind<G,add3M>::value;     assert( -1 == H::value::real );
+        using A = Just<Int_<12>>;           assert( 12 == A::toInt::real );
+        using B = bind<A,safeSub5M>::value; assert( 7  == B::toInt::real );
+        using C = bind<B,add3M>::value;     assert( 10 == C::toInt::real );
+        using D = bind<C,safeSub5M>::value; assert( 5  == D::toInt::real );
+        using E = bind<D,add3M>::value;     assert( 8  == E::toInt::real );
+        using F = bind<E,safeSub5M>::value; assert( 3  == F::toInt::real );
+        using G = bind<F,safeSub5M>::value; assert( -1 == G::toInt::real );
+        using H = bind<G,add3M>::value;     assert( -1 == H::toInt::real );
         std::cout << "Monad Maybe OK." << std::endl;
     }
     { // Functor List
-        using A = Empty;                    assert( 0     == A::value::real );
-        using B = App<A, Int_<6>>;          assert( 6     == B::value::real );
-        using C = App<B, Int_<4>>;          assert( 64    == C::value::real );
-        using D = fmap<add3,C>::value;      assert( 97    == D::value::real );
-        using E = concat<D,B>::value;       assert( 976   == E::value::real );
+        using A = Empty;                    assert( 0     == A::toInt::real );
+        using B = App<A, Int_<6>>;          assert( 6     == B::toInt::real );
+        using C = App<B, Int_<4>>;          assert( 64    == C::toInt::real );
+        using D = fmap<add3,C>::value;      assert( 97    == D::toInt::real );
+        using E = concat<D,B>::value;       assert( 976   == E::toInt::real );
         using F = concatAll< App<App<App<Empty,D>,C>,B> >::value;
-                                            assert( 97646 == F::value::real );
-        using G = sort<F>::value;           assert( 46679 == G::value::real );
+                                            assert( 97646 == F::toInt::real );
+        using G = sort<F>::value;           assert( 46679 == G::toInt::real );
         std::cout << "Functor List OK." << std::endl;
     }
     { // Monad List
-        using A = App<Empty,Int_<5>>;       assert( 5          == A::value::real );
-        using B = bind<A,tri>::value;       assert( 555        == B::value::real );
-        using C = bind<B,tri>::value;       assert( 555555555  == C::value::real );
+        using A = App<Empty,Int_<5>>;       assert( 5          == A::toInt::real );
+        using B = bind<A,tri>::value;       assert( 555        == B::toInt::real );
+        using C = bind<B,tri>::value;       assert( 555555555  == C::toInt::real );
         std::cout << "Monad List OK." << std::endl;
     }
 }

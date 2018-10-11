@@ -9,11 +9,11 @@
 **************************/
 // for convenience, Nothing equal to -1, Just i equal to i
 struct Nothing{
-    using value = Int_<-1>;
+    using toInt = Int_<-1>;
 };
 template<class T>
 struct Just{
-    using value = T;
+    using toInt = T;
 };
 
 
