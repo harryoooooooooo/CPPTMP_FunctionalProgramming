@@ -91,15 +91,4 @@ struct eq : land<typename lessEq<a,b>::value, typename greaterEq<a,b>::value>{};
 
 template<class a, class b>
 struct neq : lnot<typename eq<a,b>::value>{};
-
-template<class Cond, class Then, class Else>
-struct cond;
-template<class Then, class Else>
-struct cond<Bool_<true>,Then,Else>{
-    using value = Then;
-};
-template<class Then, class Else>
-struct cond<Bool_<false>,Then,Else>{
-    using value = Else;
-};
 #endif

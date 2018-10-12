@@ -2,17 +2,10 @@
 #include <cassert>
 #include "baseType.hpp"
 #include "maybe.hpp"
-
-
-template<template <class...> class F, class... argh>
-struct Curry{
-    template<class... argt> using curry = F<argh..., argt...>;
-};
+#include "utility.hpp"
 
 template<class... a>
-struct add4 : Curry<add4,a...>{// define max args num
-    static_assert(sizeof...(a) <= 4,"too more arguments");
-};
+struct add4 : _curry<add4,4,a...>{};
 template<class a, class b, class c, class d>
 struct add4<a,b,c,d>{
     using t1 = typename add<a,b>::value;

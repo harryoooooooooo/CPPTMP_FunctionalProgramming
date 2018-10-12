@@ -3,6 +3,7 @@
 #include "baseType.hpp"
 #include "list.hpp"
 #include "maybe.hpp"
+#include "utility.hpp"
 
 /**************************
 *          Tools          *

@@ -4,6 +4,7 @@ implement functional programming by C++ template meta programming
 ## Rules
 * Functions' return value is stored in the member type **value**. ex. `f<x,y>::value`
 * Struct names starting with uppercase are *Type Constructors*. They are final type, thus there is no member **value**. For convenience, they can be converted to Int_<> by **toInt**. ex. `Just<Int_<5>>::toInt`
+* Struct names starting with '_' are helper interfaces, usually derive them with CRTP. ex. `template<class... a> struct f : _curry<f,3,a...>{};`
 
 ## Base type
 In order to deal all the stuff only on **type**, that is, not something **non-type**(ex. 7, 'a', false). We wrap int and bool to Int_<> and Bool_<>. The member **real** is a real variable, so we can print them by cout. ex. `Int_<12>::real`
