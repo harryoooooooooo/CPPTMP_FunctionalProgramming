@@ -45,6 +45,30 @@ struct multiply<Int_<a>, Int_<b>>{
     using value = Int_<a*b>;
 };
 
+// logical not
+template<class a>
+struct lnot;
+template<bool a>
+struct lnot<Bool_<a>>{
+    using value = Bool_<(!a)>;
+};
+
+// logical and
+template<class a, class b>
+struct land;
+template<bool a, bool b>
+struct land<Bool_<a>,Bool_<b>>{
+    using value = Bool_<(a&&b)>;
+};
+
+// logical or
+template<class a, class b>
+struct lor;
+template<bool a, bool b>
+struct lor<Bool_<a>,Bool_<b>>{
+    using value = Bool_<(a||b)>;
+};
+
 // compare Int
 template<class a, class b>
 struct less;
@@ -54,25 +78,19 @@ struct less<Int_<x>, Int_<y>>{
 };
 
 template<class a, class b>
-struct greater;
-template<long long x, long long y>
-struct greater<Int_<x>, Int_<y>>{
-    using value = Bool_<(x>y)>;
-};
+struct greater : less<b,a>{};
 
 template<class a, class b>
-struct lessEq;
-template<long long x, long long y>
-struct lessEq<Int_<x>, Int_<y>>{
-    using value = Bool_<(x<=y)>;
-};
+struct lessEq : lnot<typename greater<a,b>::value>{};
 
 template<class a, class b>
-struct greaterEq;
-template<long long x, long long y>
-struct greaterEq<Int_<x>, Int_<y>>{
-    using value = Bool_<(x>=y)>;
-};
+struct greaterEq : lnot<typename less<a,b>::value>{};
+
+template<class a, class b>
+struct eq : land<typename lessEq<a,b>::value, typename greaterEq<a,b>::value>{};
+
+template<class a, class b>
+struct neq : lnot<typename eq<a,b>::value>{};
 
 template<class Cond, class Then, class Else>
 struct cond;
