@@ -73,4 +73,15 @@ template<long long x, long long y>
 struct greaterEq<Int_<x>, Int_<y>>{
     using value = Bool_<(x>=y)>;
 };
+
+template<class Cond, class Then, class Else>
+struct cond;
+template<class Then, class Else>
+struct cond<Bool_<true>,Then,Else>{
+    using value = Then;
+};
+template<class Then, class Else>
+struct cond<Bool_<false>,Then,Else>{
+    using value = Else;
+};
 #endif

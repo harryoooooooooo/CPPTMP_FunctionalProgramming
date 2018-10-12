@@ -8,18 +8,10 @@
 *          Tools          *
 **************************/
 // if a < 5 then Nothing else Just (a-5)
-template<class a, class = typename less<a,Int_<5>>::value >
-struct safeSub5M;
-
 template<class a>
-struct safeSub5M<a,Bool_<true>>{
-    using value = Nothing;
-};
-
-template<class a>
-struct safeSub5M<a,Bool_<false>>{
-    using value = Just<typename sub<a,Int_<5>>::value>;
-};
+struct safeSub5M : cond<typename less<a,Int_<5>>::value,
+    Nothing,
+    Just<typename sub<a,Int_<5>>::value>>{};
 
 // simply add 3
 template<class a>
@@ -50,23 +42,19 @@ struct sort<App<Empty,V>>{
 };
 template<class LS, class PIVOT>
 struct sort<App<LS,PIVOT>>{
-    template<class V, class B> struct filterHelper;
-    template<class V>
-    struct filterHelper<V,Bool_<true>>{ using value = App<Empty,V>; };
-    template<class V>
-    struct filterHelper<V,Bool_<false>>{ using value = Empty; };
-
     template<class x, class L> struct filterLess;
     template<class x, class L, class V>
     struct filterLess<x,App<L,V>> :
-        concat< typename filterLess<x,L>::value, typename filterHelper<V,typename less<V,x>::value>::value >{};
+        concat< typename filterLess<x,L>::value, typename cond<typename less<V,x>::value,
+            App<Empty,V>, Empty >::value >{};
     template<class x>
     struct filterLess<x,Empty>{ using value = Empty; };
 
     template<class x, class L> struct filterGreater;
     template<class x, class L, class V>
     struct filterGreater<x,App<L,V>> :
-        concat< typename filterGreater<x,L>::value, typename filterHelper<V,typename greaterEq<V,x>::value>::value >{};
+        concat< typename filterGreater<x,L>::value, typename cond<typename greaterEq<V,x>::value,
+            App<Empty,V>, Empty>::value >{};
     template<class x>
     struct filterGreater<x,Empty>{ using value = Empty; };
 
