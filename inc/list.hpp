@@ -70,11 +70,11 @@ struct foldr<F,S,Empty>{
 *         Functor         *
 **************************/
 // instance Functor List
-template<template <class> class F>
+template<template <class...> class F>
 struct fmap<F,Empty>{
     using value = Empty;
 };
-template<template <class> class F, class L, class V>
+template<template <class...> class F, class L, class V>
 struct fmap<F,App<L,V>>{
     using value = App<typename fmap<F,L>::value, typename F<V>::value>;
 };
@@ -84,11 +84,11 @@ struct fmap<F,App<L,V>>{
 *          Monad          *
 **************************/
 // instance Monad List
-template<template <class> class F>
+template<template <class...> class F>
 struct bind<Empty,F>{
     using value = Empty;
 };
-template<class L, class V, template <class> class F>
+template<class L, class V, template <class...> class F>
 struct bind<App<L,V>,F>{
     using value = typename concatAll< typename fmap<F,App<L,V>>::value >::value;
 };

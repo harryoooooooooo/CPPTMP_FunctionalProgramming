@@ -21,11 +21,11 @@ struct Just{
 *         Functor         *
 **************************/
 // instance Functor Maybe
-template<template <class> class F>
+template<template <class...> class F>
 struct fmap<F,Nothing>{
     using value = Nothing;
 };
-template<template <class> class F, class V>
+template<template <class...> class F, class V>
 struct fmap<F,Just<V>>{
     using value = Just<typename F<V>::value>;
 };
@@ -35,11 +35,11 @@ struct fmap<F,Just<V>>{
 *          Monad          *
 **************************/
 // instance Monad Maybe
-template<template <class> class F>
+template<template <class...> class F>
 struct bind<Nothing,F>{
     using value = Nothing;
 };
-template<class V, template <class> class F>
+template<class V, template <class...> class F>
 struct bind<Just<V>,F>{
     using value = typename F<V>::value;
 };
