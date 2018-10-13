@@ -1,4 +1,4 @@
-TESTS=base curry
+TESTS=base curry fold
 
 %: test/%.cpp
 	g++ -std=c++1z -Iinc -o $@ $<

@@ -45,6 +45,26 @@ struct concatAll<App<L,V>>{
     using value = typename concat<typename concatAll<L>::value, V>::value;
 };
 
+// it should be in foldable
+template<template <class...> class F, class S, class L>
+struct foldl;
+template<template <class...> class F, class S, class L, class V>
+struct foldl<F,S,App<L,V>> : F< typename foldl<F,S,L>::value, V >{};
+template<template <class...> class F, class S>
+struct foldl<F,S,Empty>{
+    using value = S;
+};
+
+template<template <class...> class F, class S, class L>
+struct foldr;
+template<template <class...> class F, class S, class L, class V>
+struct foldr<F,S,App<L,V>> : foldr< F, typename F<V,S>::value, L >{};
+template<template <class...> class F, class S, class V>
+struct foldr<F,S,App<Empty,V>> : F< V, S >{};
+template<template <class...> class F, class S>
+struct foldr<F,S,Empty>{
+    using value = S;
+};
 
 /**************************
 *         Functor         *
